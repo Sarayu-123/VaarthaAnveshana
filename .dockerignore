@@ -1,0 +1,16 @@
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.git
+.gitignore
+.env
+.venv
+.venv-1
+env/
+venv/
+task.md
+
+# Large model binary — will be downloaded during Docker build from HuggingFace
+models/embed_model/model.safetensors
+models/embed_model/.tmpTGaufV

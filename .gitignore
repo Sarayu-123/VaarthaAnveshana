@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+*.class
+.venv/
+.venv-1/
+env/
+venv/
+.env
+.DS_Store
+task.md
+
+# Large model files — downloaded at container startup from HuggingFace
+models/embed_model/model.safetensors
+models/embed_model/.tmpTGaufV

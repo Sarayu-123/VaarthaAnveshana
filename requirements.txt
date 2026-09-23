@@ -1,0 +1,9 @@
+pandas
+scikit-learn
+sentence-transformers
+joblib
+fastapi
+uvicorn
+langdetect
+numpy
+pydantic

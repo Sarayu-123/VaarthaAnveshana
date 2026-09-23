@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake News Verifier</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="app" aria-label="Fake News Verifier">
+        <section class="card verifier-card">
+            <header class="card-header">
+                <div>
+                    <h1>Fake News Verifier</h1>
+                    <p class="subtitle">Enter a headline or paste a news paragraph to validate</p>
+                </div>
+                <nav class="header-links" aria-label="Account actions">
+                    <button class="text-link" id="themeToggle" type="button">Toggle Theme</button>
+                    <button class="text-link" type="button" id="logoutButton">Logout</button>
+                </nav>
+            </header>
+
+            <textarea id="inputText" placeholder="Paste headline or news text here..." aria-label="News text"></textarea>
+
+            <div class="controls">
+                <label class="select-wrap">
+                    <span class="sr-only">Language</span>
+                    <select id="languageSelect" aria-label="Language">
+                        <option>English</option>
+                        <option>Hindi</option>
+                        <option>Telugu</option>
+                        <option>Tamil</option>
+                        <option>Kannada</option>
+                        <option>Malayalam</option>
+                        <option>Marathi</option>
+                        <option>Bengali</option>
+                        <option>Gujarati</option>
+                        <option>Punjabi</option>
+                        <option>Odia</option>
+                    </select>
+                </label>
+                <button class="verify-button" id="verifyButton" type="button">Verify News</button>
+            </div>
+
+            <section class="result-panel" aria-live="polite">
+                <div class="prediction-banner pending" id="predictionBanner">RESULT WILL APPEAR HERE</div>
+                <div class="confidence-area">
+                    <div class="confidence-ring" id="confidenceRing"><span id="confidenceValue">--%</span></div>
+                    <div class="confidence-label"><strong>Confidence</strong><span id="predictionValue">Awaiting check</span></div>
+                </div>
+                <div class="result-divider" aria-hidden="true"></div>
+                <div class="summary-area">
+                    <strong>Summary:</strong>
+                    <span id="summaryValue">Will appear after prediction</span>
+                </div>
+            </section>
+
+            <div class="section-rule" aria-hidden="true"></div>
+            <div class="checklists">
+                <section>
+                    <h2>Real News Checklist</h2>
+                    <ul>
+                        <li>Normal sources / quotes</li>
+                        <li>Provides evidence or links</li>
+                        <li>Neutral tone</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>Fake News Warnings</h2>
+                    <ul>
+                        <li>Highly sensational words</li>
+                        <li>No author or source</li>
+                        <li>Lots of ALL CAPS or exclamation</li>
+                    </ul>
+                </section>
+            </div>
+        </section>
+
+        <aside class="card actions-card">
+            <header class="side-header">
+                <h2>Recent Checks</h2>
+                <button class="text-link" id="clearHistoryBtn" type="button">Clear</button>
+            </header>
+            <div class="section-rule" aria-hidden="true"></div>
+
+            <div class="side-section history-section">
+                <ul class="history-list" id="historyList">
+                    <li class="history-empty">No checks yet. Enter a headline to verify.</li>
+                </ul>
+            </div>
+
+            <div class="side-section tips">
+                <h3>Tips &amp; Safety</h3>
+                <ul>
+                    <li>Check dates, author, and official sources.</li>
+                    <li>Compare against multiple established outlets.</li>
+                    <li>Look out for extreme sensational claims.</li>
+                </ul>
+            </div>
+
+            <p class="notice" id="notice" role="status"></p>
+        </aside>
+    </main>
+    <script src="app.js"></script>
+</body>
+</html>
