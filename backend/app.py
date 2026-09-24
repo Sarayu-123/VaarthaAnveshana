@@ -43,7 +43,7 @@ print("🔄 Loading models...")
 try:
     model_source = (
         "models/embed_model"
-        if os.path.exists("models/embed_model")
+        if os.path.exists("models/embed_model/model.safetensors")
         else "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
     )
     embed_model = SentenceTransformer(model_source)  # semantic model

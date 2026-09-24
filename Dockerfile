@@ -1,28 +1,31 @@
 FROM python:3.10-slim
 
-# Set up user with UID 1000 for Hugging Face Spaces security requirements
-RUN useradd -m -u 1000 user
-USER user
-ENV HOME=/home/user \
-    PATH=/home/user/.local/bin:$PATH \
+ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-# Copy requirements and install dependencies
-COPY --chown=user requirements.txt /app/requirements.txt
+# Copy requirements
+COPY requirements.txt /app/requirements.txt
+
+# Install CPU-only PyTorch first (reduces image from >4GB to ~300MB, preventing OOM / disk crashes on Railway)
+# Then install remaining packages
 RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu && \
     pip install --no-cache-dir -r requirements.txt
 
-# Copy application files (model.safetensors excluded via .dockerignore)
-COPY --chown=user . /app
+# Copy application files
+COPY . /app
 
-# Pre-download the SentenceTransformer model from HuggingFace at build time
-# so it's baked into the image and doesn't need internet on startup
-RUN python -c "from sentence_transformers import SentenceTransformer; import os; os.makedirs('models/embed_model', exist_ok=True); model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2'); model.save('models/embed_model'); print('Model saved.')"
+# Setup non-root user
+RUN useradd -m -u 1000 user && \
+    chown -R user:user /app /home/user
 
-# Expose Railway / Hugging Face Space default port
+USER user
+ENV HOME=/home/user \
+    PATH=/home/user/.local/bin:$PATH
+
 EXPOSE 7860
 
-# Start FastAPI application
-CMD ["uvicorn", "backend.app:app", "--host", "0.0.0.0", "--port", "7860"]
+# Start server using dynamic Railway PORT (defaults to 7860)
+CMD ["sh", "-c", "uvicorn backend.app:app --host 0.0.0.0 --port ${PORT:-7860}"]
