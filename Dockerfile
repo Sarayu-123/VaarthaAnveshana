@@ -19,13 +19,7 @@ COPY --chown=user . /app
 
 # Pre-download the SentenceTransformer model from HuggingFace at build time
 # so it's baked into the image and doesn't need internet on startup
-RUN python -c "\
-    from sentence_transformers import SentenceTransformer; \
-    import os; \
-    os.makedirs('models/embed_model', exist_ok=True); \
-    model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2'); \
-    model.save('models/embed_model'); \
-    print('Model saved to models/embed_model')"
+RUN python -c "from sentence_transformers import SentenceTransformer; import os; os.makedirs('models/embed_model', exist_ok=True); model = SentenceTransformer('sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2'); model.save('models/embed_model'); print('Model saved.')"
 
 # Expose Railway / Hugging Face Space default port
 EXPOSE 7860
