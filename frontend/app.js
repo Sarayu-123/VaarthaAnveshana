@@ -75,7 +75,7 @@ async function verifyNews() {
     });
     const data = await response.json();
     if (!response.ok || data.error) {
-      throw new Error(data.error || "Prediction request failed.");
+      throw new Error(data.error || data.detail || "Prediction request failed.");
     }
 
     const confidence = Math.round(Number(data.confidence) * 100);

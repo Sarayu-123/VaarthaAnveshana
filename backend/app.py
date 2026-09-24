@@ -41,18 +41,41 @@ app.add_middleware(
 print("🔄 Loading models...")
 
 try:
+    import torch
+    import gc
+
+    torch.set_num_threads(1)
+
     model_source = (
         "models/embed_model"
         if os.path.exists("models/embed_model/model.safetensors")
         else "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
     )
-    embed_model = SentenceTransformer(model_source)  # semantic model
+    embed_model = SentenceTransformer(
+        model_source,
+        device="cpu",
+        model_kwargs={"low_cpu_mem_usage": True},
+    )
+
+    try:
+        embed_model = torch.quantization.quantize_dynamic(
+            embed_model, {torch.nn.Linear}, dtype=torch.qint8
+        )
+    except Exception as q_err:
+        print("Note: Dynamic quantization skipped:", q_err)
+
+    gc.collect()
+
     clf = joblib.load("models/clf_baseline.joblib")  # classifier
     training_data = pd.read_csv("data/train.csv")
     tfidf_vectorizer = TfidfVectorizer(ngram_range=(1, 2), min_df=1, sublinear_tf=True)
     training_features = tfidf_vectorizer.fit_transform(training_data["text"])
     tfidf_clf = LogisticRegression(max_iter=1000, random_state=42)
     tfidf_clf.fit(training_features, training_data["label"])
+
+    del training_data, training_features
+    gc.collect()
+
     print("✅ Semantic and TF-IDF models loaded successfully.")
 except Exception as e:
     MODEL_LOAD_ERROR = str(e)
