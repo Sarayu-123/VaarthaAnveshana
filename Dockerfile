@@ -22,4 +22,4 @@ COPY --chown=user . /app
 EXPOSE 7860
 
 # Start FastAPI application
-CMD ["uvicorn", "backend.app:app", "--host", "0.0.0.0", "--port", "7860"]
+CMD ["sh", "-c", "uvicorn backend.app:app --host 0.0.0.0 --port ${PORT:-10000}"]
