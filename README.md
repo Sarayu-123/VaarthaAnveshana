@@ -446,16 +446,11 @@ The current system classifies the supplied text and does not independently verif
 
 ## 🔮 Future Enhancements
 
-* 🔎 Evidence retrieval from trusted sources
 * 📰 Integration with fact-checking databases
 * 🌐 Improved multilingual datasets
 * 📚 Source credibility analysis
-* 🧩 Claim-level verification
-* 💡 Explainable predictions
 * 📊 Model evaluation and analytics dashboard
-* 🔄 Continuous model improvement
 * 🧠 Retrieval-Augmented Generation for evidence-based verification
-* 🔗 Integration with trusted news and fact-checking APIs
 
 ---
 
