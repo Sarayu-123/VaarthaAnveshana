@@ -155,7 +155,7 @@ if os.path.exists(frontend_path):
 
 
 # ---------------------------------------------------
-# Run using:
+# For local deployment :
 # uvicorn backend.app:app --reload --host 127.0.0.1 --port 8001
 # ---------------------------------------------------
 if __name__ == "__main__":
