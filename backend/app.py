@@ -54,7 +54,6 @@ try:
     embed_model = SentenceTransformer(
         model_source,
         device="cpu",
-        model_kwargs={"torch_dtype": torch.bfloat16, "low_cpu_mem_usage": True},
     )
 
     try:
